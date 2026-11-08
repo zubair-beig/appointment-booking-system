@@ -1,0 +1,64 @@
+# Root .gitignore for AppointmentBook.
+# The web/ frontend has its own web/.gitignore (Vite template) for Node-specific entries.
+
+# ---------- .NET build output ----------
+[Bb]in/
+[Oo]bj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Ll]og/
+[Ll]ogs/
+artifacts/
+publish/
+*.nupkg
+*.snupkg
+
+# ---------- .NET / Visual Studio tooling ----------
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.rsuser
+TestResults/
+[Tt]est[Rr]esult*/
+*.trx
+coverage*.json
+coverage*.xml
+*.coverage
+*.coveragexml
+
+# ---------- Local databases (SQLite / LocalDB files) ----------
+*.db
+*.db-shm
+*.db-wal
+*.mdf
+*.ldf
+
+# ---------- Local secrets / per-machine config ----------
+# appsettings.Development.json is tracked; put real secrets in user-secrets
+# (dotnet user-secrets) or in one of these untracked overrides instead.
+appsettings.*.local.json
+appsettings.Local.json
+.env
+.env.*
+!.env.example
+
+# ---------- Node (safety net for anything outside web/) ----------
+node_modules/
+
+# ---------- Editors ----------
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/tasks.json
+.idea/
+*.sw?
+
+# ---------- OS ----------
+.DS_Store
+Thumbs.db
+Desktop.ini

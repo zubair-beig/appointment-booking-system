@@ -1,0 +1,36 @@
+# Container image for deploying AppointmentBook.Api to Vercel.
+# Build context is the repository root; only the API project is copied in.
+# The project targets net9.0, so the SDK and runtime images are pinned to 9.0.
+
+# ---------- Build stage ----------
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
+
+WORKDIR /src
+
+# Copy the project file first so the NuGet restore layer is cached
+# until package references change.
+COPY ["src/AppointmentBook.Api/AppointmentBook.Api.csproj", "AppointmentBook.Api/"]
+
+RUN dotnet restore "AppointmentBook.Api/AppointmentBook.Api.csproj"
+
+# Copy the rest of the API source (bin/obj are excluded by .dockerignore).
+COPY src/AppointmentBook.Api/ AppointmentBook.Api/
+
+RUN dotnet publish "AppointmentBook.Api/AppointmentBook.Api.csproj" \
+    -c Release \
+    -o /app/publish \
+    --no-restore \
+    /p:UseAppHost=false
+
+# ---------- Runtime stage ----------
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS final
+
+WORKDIR /app
+
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:80
+
+EXPOSE 80
+
+ENTRYPOINT ["dotnet", "AppointmentBook.Api.dll"]

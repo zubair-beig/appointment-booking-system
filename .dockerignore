@@ -1,0 +1,14 @@
+# Keep the Docker build context small and avoid copying host build output
+# (Windows-built bin/obj would clash with the Linux restore inside the image).
+**/bin/
+**/obj/
+**/node_modules/
+web/
+.git/
+.vs/
+.vscode/
+.idea/
+**/*.user
+**/appsettings.*.local.json
+.env
+.env.*

@@ -1,4 +1,16 @@
-const apiBaseUrl: string = import.meta.env.VITE_API_URL ?? 'http://localhost:5080'
+// Base URL of the AppointmentBook API, baked in at build time from VITE_API_URL
+// (web/.env.development for `npm run dev`, a build-time environment variable for production builds).
+// Trailing slashes are trimmed so `${apiBaseUrl}/api/...` never produces a double slash.
+const apiBaseUrl: string = readRequiredEnvironmentValue('VITE_API_URL', import.meta.env.VITE_API_URL).replace(/\/+$/, '')
+
+function readRequiredEnvironmentValue(variableName: string, configuredValue: string | undefined): string {
+  if (configuredValue === undefined || configuredValue.trim() === '') {
+    throw new Error(
+      `${variableName} is not set. Add it to web/.env.development (local dev) or set it as an environment variable before running the build.`,
+    )
+  }
+  return configuredValue
+}
 
 export interface BookingSettings {
   businessName: string

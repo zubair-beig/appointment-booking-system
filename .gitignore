@@ -45,6 +45,8 @@ appsettings.Local.json
 .env
 .env.*
 !.env.example
+# Vite's committed, non-secret dev defaults (per-machine overrides go in .env.*.local).
+!web/.env.development
 
 # ---------- Node (safety net for anything outside web/) ----------
 node_modules/

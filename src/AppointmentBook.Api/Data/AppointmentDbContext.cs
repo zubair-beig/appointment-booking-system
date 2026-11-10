@@ -21,7 +21,7 @@ public sealed class AppointmentDbContext(DbContextOptions<AppointmentDbContext> 
             // Database-level guard against two people grabbing the same slot at the same moment.
             entity.HasIndex(appointment => appointment.StartUtc)
                 .IsUnique()
-                .HasFilter("[Status] <> 'Cancelled'");
+                .HasFilter("\"Status\" <> 'Cancelled'");
         });
     }
 }
